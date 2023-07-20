@@ -23,7 +23,7 @@ exports.handler = (event, context, callback) => {
   };
   console.log("parameters: " + JSON.stringify(params));
   
-  translator.translateText(payload.content, null, payload.targetLang).then((result) => {
+  translator.translateText(payload.content, null, payload.targetLang).then((response) => {
 	console.log('response ' + JSON.stringify(response));
 	callback(null, {"statusCode": 200, headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "*" }, "body": JSON.stringify((response))});
   }).catch((error) => {
