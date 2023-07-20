@@ -1,5 +1,5 @@
 //import Predictions from '@aws-amplify/predictions';
-import * as deepl from "deepl-node"
+import * as deepl from "deepl-node";
 
 async function DetectChatText(content) {
     /*let detectLang = Predictions.interpret({
