@@ -56,7 +56,8 @@ const Ccp = () => {
         }
         // If the contatId was not found in the store, or the store is empty, perform dectText API to comprehend
         if(languageTranslate.length == 0 || textLang == '') {
-            textLang = await translate(content, 'de').detectedSourceLang;
+			let translation = await translate(content, 'de');
+            textLang = translation.detectedSourceLang;
 			console.log("Detected Language: " + textLang)
         }
 
@@ -72,7 +73,8 @@ const Ccp = () => {
 		}
                 
         // Translate the customer message into German.
-        let translatedMessage = await translate(content, 'de').text;
+        let translation = await translate(content, 'de');
+		let translatedMessage = translation.text;
         console.log(`CDEBUG ===>  Original Message: ` + content + `\n Translated Message: ` + translatedMessage);
         // create the new message to add to Chats.
         let data2 = {
