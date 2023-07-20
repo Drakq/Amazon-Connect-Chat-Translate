@@ -49,25 +49,24 @@ const Ccp = () => {
     async function processChatText(content, type, contactId) {
         // Check if we know the language for this contactId, if not use dectectText(). This process means we only perform comprehend language detection at most once.
         let textLang = '';
-          for(var i = 0; i < languageTranslate.length; i++) {
-                if (languageTranslate[i].contactId == contactId) {
-                    textLang = languageTranslate[i].lang
-                     break
-                } 
+        for(var i = 0; i < languageTranslate.length; i++) {
+            if (languageTranslate[i].contactId == contactId) {
+                textLang = languageTranslate[i].lang;
+                break;
+            } 
         }
         // If the contatId was not found in the store, or the store is empty, perform dectText API to comprehend
-        if (localLanguageTranslate.length == 0 || textLang == ''){
+        if(languageTranslate.length == 0 || textLang == '') {
             let tempLang = await detectText(content);
-            textLang = tempLang.textInterpretation.language
+            textLang = tempLang.textInterpretation.language;
         }
 
-
          // Update (or Add if new contactId) the store with the the language code
-         function upsert(array, item) { // (1)
-            const i = array.findIndex(_item => _item.contactId === item.contactId);
+        function upsert(array, item) { // (1)
+        	const i = array.findIndex(_item => _item.contactId === item.contactId);
             if (i > -1) array[i] = item; // (2)
-            else array.push(item);
-          }
+        	else array.push(item);
+        }
         upsert(languageTranslate, {contactId: contactId, lang: textLang})
         setLanguageTranslate(languageTranslate);
                 
