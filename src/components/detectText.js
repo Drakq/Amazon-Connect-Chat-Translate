@@ -1,5 +1,7 @@
 //import Predictions from '@aws-amplify/predictions';
 import * as deepl from "deepl-node";
+import * as url from "url";
+url.URLSearchParams = URLSearchParams;
 
 async function DetectChatText(content) {
     /*let detectLang = Predictions.interpret({
