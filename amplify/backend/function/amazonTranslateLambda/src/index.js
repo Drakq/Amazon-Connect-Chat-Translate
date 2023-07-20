@@ -1,5 +1,5 @@
-const AWS = require('aws-sdk');
-const translate = new AWS.Translate({ apiVersion: '2017-07-01' }); // Fix API version (best practice)
+//const AWS = require('aws-sdk');
+//const translate = new AWS.Translate({ apiVersion: '2017-07-01' }); // Fix API version (best practice)
 
 const deepl = require('deepl-node');
 let region = process.env.KEY;
@@ -24,12 +24,14 @@ exports.handler = (event, context, callback) => {
   console.log("parameters: " + JSON.stringify(params));
   
   translator.translateText(payload.content, null, payload.targetLang).then((result) => {
-    console.log("new response " + result.text);
+	console.log('response ' + JSON.stringify(response));
+	callback(null, {"statusCode": 200, headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "*" }, "body": JSON.stringify((response))});
   }).catch((error) => {
     console.error(error);
+    callback(null, {"statusCode": 500, headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "*" }, "body": JSON.stringify((error))});
   });
 
-  translate.translateText(
+  /*translate.translateText(
     params,
     function(error, response) {
 
@@ -43,5 +45,5 @@ exports.handler = (event, context, callback) => {
       }
     }
 
-  );
+  );*/
 };
