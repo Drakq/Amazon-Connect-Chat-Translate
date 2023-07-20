@@ -66,8 +66,10 @@ const Ccp = () => {
             if (i > -1) array[i] = item; // (2)
         	else array.push(item);
         }
-        upsert(languageTranslate, {contactId: contactId, lang: textLang})
-        setLanguageTranslate(languageTranslate);
+		if(textLang != '') {
+    		upsert(languageTranslate, {contactId: contactId, lang: textLang})
+        	setLanguageTranslate(languageTranslate);
+		}
                 
         // Translate the customer message into German.
         let translatedMessage = await translate(content, 'de').text;
