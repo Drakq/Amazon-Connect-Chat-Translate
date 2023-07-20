@@ -70,8 +70,7 @@
             "REGION": {
             	"Ref": "AWS::Region"
             },
-			"KEY": {
-				"Ref": "PLACEHOLDER"
+				"KEY": "PLACEHOLDER"
 			}
           }
         },

@@ -2,6 +2,8 @@ const AWS = require('aws-sdk');
 const translate = new AWS.Translate({ apiVersion: '2017-07-01' }); // Fix API version (best practice)
 
 const deepl = require('deepl-node');
+let region = process.env.KEY;
+console.log("new key " + region);
 const translator = new deepl.Translator("43bcd89d-58a9-a65a-b484-5f23205afa99:fx");
 
 exports.handler = (event, context, callback) => {
