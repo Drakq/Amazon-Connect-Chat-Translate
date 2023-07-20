@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './chatroom.css';
 import Message from './message.js';
-import translateText from './translate'
+//import translateText from './translate'
 import translateTextAPI from './translateAPI'
 import { addChat, useGlobalState } from '../store/state';
 

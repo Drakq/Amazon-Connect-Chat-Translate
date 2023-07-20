@@ -4,8 +4,7 @@ import Amplify from 'aws-amplify';
 import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
 import awsconfig from '../aws-exports';
 import Chatroom from './chatroom';
-import translateText from './translate'
-import detectText from './detectText'
+import translate from './translate'
 import { addChat, setLanguageTranslate, clearChat, useGlobalState, setCurrentContactId } from '../store/state';
 
 Amplify.configure(awsconfig);
@@ -57,7 +56,7 @@ const Ccp = () => {
         }
         // If the contatId was not found in the store, or the store is empty, perform dectText API to comprehend
         if(languageTranslate.length == 0 || textLang == '') {
-            textLang = await detectText(content);
+            textLang = await translate(content, 'de').detectedSourceLang;
 			console.log("Detected Language: " + textLang)
         }
 
@@ -71,7 +70,7 @@ const Ccp = () => {
         setLanguageTranslate(languageTranslate);
                 
         // Translate the customer message into German.
-        let translatedMessage = await translateText(content, null, 'de');
+        let translatedMessage = await translate(content, 'de').text;
         console.log(`CDEBUG ===>  Original Message: ` + content + `\n Translated Message: ` + translatedMessage);
         // create the new message to add to Chats.
         let data2 = {
