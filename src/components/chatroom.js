@@ -59,7 +59,7 @@ const Chatroom = (props) => {
         let destLang = languageTranslate.find(o => o.contactId === currentContactId[0]);
 
         // translate the agent message  ** Swap the below two round if you wnat to test custom termonologies **
-        // let translatedMessage = await translateText(newMessage, 'en', destLang.lang);
+        //let translatedMessage = await translateText(newMessage, 'de', destLang.lang);
 
         /***********************************CUSTOM TERMINOLOGY*************************************************    
          
