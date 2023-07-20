@@ -15,7 +15,8 @@
     "react-hooks-global-state": "^1.0.1",
     "react-scripts": "4.0.3",
     "semantic-ui-react": "^2.0.3",
-    "web-vitals": "^2.0.1"
+    "web-vitals": "^2.0.1",
+	"deepl-node": "^1.10.2"
   },
   "scripts": {
     "start": "craco start",

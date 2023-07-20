@@ -65,11 +65,14 @@
         "Environment": {
           "Variables": {
             "ENV": {
-              "Ref": "env"
+            	"Ref": "env"
             },
             "REGION": {
-              "Ref": "AWS::Region"
-            }
+            	"Ref": "AWS::Region"
+            },
+			"KEY": {
+				"Ref": "PLACEHOLDER"
+			}
           }
         },
         "Role": {
