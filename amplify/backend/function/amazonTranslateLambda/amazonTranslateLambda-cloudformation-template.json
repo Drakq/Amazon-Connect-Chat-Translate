@@ -70,7 +70,7 @@
             "REGION": {
             	"Ref": "AWS::Region"
             },
-			"KEY": "PLACEHOLDER"
+			"DEEPL_KEY": "PLACEHOLDER"
           }
         },
         "Role": {

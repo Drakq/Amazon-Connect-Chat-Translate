@@ -2,25 +2,24 @@
 //const translate = new AWS.Translate({ apiVersion: '2017-07-01' }); // Fix API version (best practice)
 
 const deepl = require('deepl-node');
-console.log("new key " + process.env.KEY);
-const translator = new deepl.Translator("43bcd89d-58a9-a65a-b484-5f23205afa99:fx");
+const translator = new deepl.Translator(process.env.DEEPL_KEY);
 
 exports.handler = (event, context, callback) => {
   let payload = JSON.parse(event.body);
-  console.log("event: ", event);
-  console.log("event: ", payload.terminologyNames);
-  // body: '{"content":"hello","sourceLang":"en","targetLang":"en"}'
+  //console.log("event: ", event);
+  //console.log("event: ", payload.terminologyNames);
+  //body: '{"content":"hello","sourceLang":"en","targetLang":"en"}'
 
-  let params = {
+  /*let params = {
     SourceLanguageCode: payload.sourceLang,
-    /* required */
+    //required
     TargetLanguageCode: payload.targetLang,
-    /* required */
+    //required
     Text: payload.content,
-    /* required */
+    //required
     TerminologyNames: payload.terminologyNames
   };
-  console.log("parameters: " + JSON.stringify(params));
+  console.log("parameters: " + JSON.stringify(params));*/
   
   translator.translateText(payload.content, null, payload.targetLang).then((response) => {
 	console.log('response ' + JSON.stringify(response));
