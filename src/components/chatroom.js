@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './chatroom.css';
 import Message from './message.js';
-//import translateText from './translate'
-import translateTextAPI from './translateAPI'
+import translate from './translateAPI';
 import { addChat, useGlobalState } from '../store/state';
 
 
@@ -67,8 +66,8 @@ const Chatroom = (props) => {
          
          ******************************************************************************************************/
 
-        let translatedMessageAPI = await translateTextAPI(newMessage, 'de', 'en-GB', ['connectChatTranslate']); // Provide a custom terminology created outside of this deployment
-        let translatedMessage = translatedMessageAPI.TranslatedText
+        let translatedMessageLambda = await translate(newMessage, 'en-GB'); // Provide a custom terminology created outside of this deployment
+        let translatedMessage = translatedMessageLambda.text
 
         console.log(` Original Message: ` + newMessage + `\n Translated Message: ` + translatedMessage);
         // create the new message to add to Chats.

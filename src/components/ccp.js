@@ -4,7 +4,7 @@ import Amplify from 'aws-amplify';
 import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
 import awsconfig from '../aws-exports';
 import Chatroom from './chatroom';
-import translate from './translate'
+import translate from './translateAPI';
 import { addChat, setLanguageTranslate, clearChat, useGlobalState, setCurrentContactId } from '../store/state';
 
 Amplify.configure(awsconfig);
