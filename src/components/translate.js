@@ -13,8 +13,10 @@ async function ProcessChatText(content, sourceLang, tagretLang) {
         }
     });
     return transcriptMessage.text*/
+	
 	console.log("translate key " + process.env.KEY);
 	const translator = new deepl.Translator("43bcd89d-58a9-a65a-b484-5f23205afa99:fx");
-	return await translator.translateText(content, null, tagretLang);
+	const translation = await translator.translateText(content, null, tagretLang);
+	return translation.text;
 }
 export default ProcessChatText
