@@ -1,7 +1,7 @@
 import { API } from 'aws-amplify';
 
-async function translate(content, targetLang) {
-	return API.post("amazonTranslateAPI", "/translate", {"content": content, "targetLanguage": targetLang});
+async function translate(content, targetLanguage) {
+	return API.post("amazonTranslateAPI", "/translate", {body: {'content': content,'targetLanguage': targetLanguage}});
 }
 
 export default translate
