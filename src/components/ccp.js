@@ -122,16 +122,16 @@ const Ccp = () => {
                     setAgentChatSessionState(agentChatSessionState => [...agentChatSessionState, {[contact.contactId] : agentChatSession}])
                 
                     // Get the language from the attributes, if the value is valid then add to the store
-                    localLanguageTranslate = contact.getAttributes().x_lang.value
-                    if (Object.keys(languageOptions).find(key => languageOptions[key] === localLanguageTranslate) !== undefined){
-                        console.log("CDEBUG ===> Setting lang code from attribites:", localLanguageTranslate)
-                        languageTranslate.push({contactId: contact.contactId, lang: localLanguageTranslate})
-                        setLanguageTranslate(languageTranslate);
-                        setRefreshChild('updated') // Workaround to force a refresh of the chatroom UI to show the updated language based on contact attribute.
-                
-                    }
-                    console.log("CDEBUG ===> onAccepted, languageTranslate ", languageTranslate)
-                    
+                    localLanguageTranslate = contact.getAttributes().x_lang
+					if(localLanguageTranslate && localLanguageTranslate.value) {
+						if(Object.keys(languageOptions).find(key => languageOptions[key] === localLanguageTranslate.value) !== undefined){
+							console.log("CDEBUG ===> Setting lang code from attribites:", localLanguageTranslate.value)
+							languageTranslate.push({contactId: contact.contactId, lang: localLanguageTranslate.value})
+							setLanguageTranslate(languageTranslate);
+							setRefreshChild('updated') // Workaround to force a refresh of the chatroom UI to show the updated language based on contact attribute.
+						}
+						console.log("CDEBUG ===> onAccepted, languageTranslate ", languageTranslate)
+					}
                 });
 
                 // This is invoked when the customer and agent are connected
