@@ -6,7 +6,6 @@ import { addChat, useGlobalState } from '../store/state';
 
 
 const Chatroom = (props) => {
-
     const [Chats] = useGlobalState('Chats');
     const currentContactId = useGlobalState('currentContactId');
     const [newMessage, setNewMessage] = useState("");
@@ -17,14 +16,11 @@ const Chatroom = (props) => {
     const input = useRef(null);
 
 
-    function getKeyByValue(object) {
-        let obj = languageTranslate.find(o => o.contactId === currentContactId[0]);
-        if(obj === undefined) {
-            return
-          } else {
-                return Object.keys(object).find(key => object[key] === obj.lang);
+    function getLanguage(languageOptions) {
+        let translation = languageTranslate.find(({contactId}) => contactId === currentContactId[0]);
+        if(translation) {
+            return " & " + Object.keys(languageOptions).find(key => object[key] === translation.lang) + "(" + translation.lang + ")";
         }
-        
     }
 
     const sendMessage = async(session, content) => {
@@ -105,9 +101,9 @@ const Chatroom = (props) => {
 
 
     return (
-		//({languageTranslate.map(lang => {if(lang.contactId === currentContactId[0])return lang.lang})})
+		//({languageTranslate.map(language => {if(language.contactId === currentContactId[0])return lang.lang})})
         <div className="chatroom">
-                <h3>Übersetzen Deutsch & {getKeyByValue(languageOptions)}</h3>
+                <h3>Übersetzen Deutsch{getLanguage(languageOptions)}</h3>
                 <ul className="chats" ref={messageEl}>
                 {
                         // iterate over the Chats, and only display the messages for the currently active chat session
