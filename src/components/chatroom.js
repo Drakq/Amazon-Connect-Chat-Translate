@@ -19,7 +19,7 @@ const Chatroom = (props) => {
     function getLanguage(languageOptions) {
         let translation = languageTranslate.find(({contactId}) => contactId === currentContactId[0]);
         if(translation) {
-            return " & " + Object.keys(languageOptions).find(key => object[key] === translation.lang) + "(" + translation.lang + ")";
+            return " & " + Object.keys(languageOptions).find(key => languageOptions[key] === translation.lang) + "(" + translation.lang + ")";
         }
     }
 
