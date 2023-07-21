@@ -55,7 +55,7 @@ const Chatroom = (props) => {
         let destLang = languageTranslate.find(o => o.contactId === currentContactId[0]);
 		let langCode = "en-GB"
 		if(destLang) langCode = destLang.lang;
-		if(langCode == "en") langCode = "en-GB";
+		if(langCode === "en") langCode = "en-GB";
 
         // translate the agent message  ** Swap the below two round if you wnat to test custom termonologies **
         //let translatedMessage = await translateText(newMessage, 'de', langCode);
@@ -111,7 +111,7 @@ const Chatroom = (props) => {
                         // iterate over the Chats, and only display the messages for the currently active chat session
                         Chats.map(chat => {
                             if(chat.contactId === currentContactId[0])
-                                return<Message chat={chat} user={agentUsername} />
+                                return <Message chat={chat} user={agentUsername}/>
                             }
                         )
                     }
