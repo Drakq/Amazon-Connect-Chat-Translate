@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Grid } from 'semantic-ui-react';
-import Amplify from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 //import { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
 import awsconfig from '../aws-exports';
 import Chatroom from './chatroom';
