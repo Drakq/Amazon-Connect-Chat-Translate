@@ -53,7 +53,7 @@ const { setGlobalState, useGlobalState } = createGlobalState({
         'Malayalam':'ml',
         'Maltese':'mt',
         'Mongolian':'mn',
-        'Norwegian':'no',
+        'Norwegian':'nb',
         'Persian':'fa',
         'Pashto':'ps',
         'Polish':'pl',
