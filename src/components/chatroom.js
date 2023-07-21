@@ -53,7 +53,8 @@ const Chatroom = (props) => {
             return;
         }
         let destLang = languageTranslate.find(o => o.contactId === currentContactId[0]);
-		let langCode = destLang.lang;
+		let langCode = "en-GB"
+		if(destLang) langCode = destLang.lang;
 		if(langCode == "en") langCode = "en-GB";
 
         // translate the agent message  ** Swap the below two round if you wnat to test custom termonologies **
