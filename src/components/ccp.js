@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Grid } from 'semantic-ui-react';
-import Amplify from 'aws-amplify';
-import { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
-import awsconfig from '../aws-exports';
+//import Amplify from 'aws-amplify';
+//import { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
+//import awsconfig from '../aws-exports';
 import Chatroom from './chatroom';
 import translate from './translateAPI';
 import { addChat, setLanguageTranslate, clearChat, useGlobalState, setCurrentContactId } from '../store/state';
 
-Amplify.configure(awsconfig);
-Amplify.addPluggable(new AmazonAIPredictionsProvider());
+//Amplify.configure(awsconfig);
+//Amplify.addPluggable(new AmazonAIPredictionsProvider());
 
 
 
