@@ -7,3 +7,5 @@ customHeaders:
         value: '1; mode=block'
       - key: 'X-Content-Type-Options'
         value: 'nosniff'
+      - key: 'X-Frame-Options'
+        value: 'ALLOW-FROM https://my348950.crm.ondemand.com'
