@@ -174,23 +174,40 @@ const Ccp = () => {
     // ***** 
     // Loading CCP
     // *****
-    useEffect(() => {
-        const connectUrl = process.env.REACT_APP_CONNECT_INSTANCE_URL;
-        window.connect.agentApp.initApp(
-            "ccp",
-            "ccp-container",
-            connectUrl + "/connect/ccp-v2/", { 
-                ccpParams: { 
-                    region: process.env.REACT_APP_CONNECT_REGION,
-                    pageOptions: {                  // optional
-                        enableAudioDeviceSettings: true, // optional, defaults to 'false'
-                        enablePhoneTypeSettings: true // optional, defaults to 'true'
-                      }
-                } 
-            }
-        );
-        subscribeConnectEvents();
-    }, []);
+	useEffect(() => {
+		const connectUrl = process.env.REACT_APP_CONNECT_INSTANCE_URL;
+		window.connect.agentApp.initApp(
+			"ccp",
+			"ccp-container",
+			connectUrl + "/connect/ccp-v2/", { 
+				ccpParams: { 
+					region: process.env.REACT_APP_CONNECT_REGION,
+					pageOptions: {
+						enableAudioDeviceSettings: true,
+						enablePhoneTypeSettings: true
+					},
+					loginPopup: true,
+					loginPopupAutoClose: true,
+					loginOptions: {
+						autoClose: true,
+						height: 578,
+						width: 433,
+						top: 0,
+						left: 0
+					},
+					softphone: {
+						allowFramedSoftphone: true,
+						disableRingtone: false,
+						//ringtoneUrl: "./ringtone.mp3"
+					},
+					featurePermissions: {
+						"ATTACHMENTS": true,
+					}
+				}
+			}
+			);
+			subscribeConnectEvents();
+	}, []);
 
 
     return (
