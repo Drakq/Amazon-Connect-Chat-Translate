@@ -33,11 +33,13 @@ const Ccp = () => {
                         messageData.data.Content)
                 }
                 else {
-					console.log(`CDEBUG ===> Customer ${messageData.data.DisplayName} Says`,messageData.data.Content);
-					processChatText(messageData.data.Content, messageData.data.Type, messageData.data.ContactId );
-					controller.getTranscript({MaxResults: 9999}).then(function (result) {
-						transcript = result.data["Transcript"];
-					});
+					if(messageData.data.Content !== undefined) {
+						console.log(`CDEBUG ===> Customer ${messageData.data.DisplayName} Says`,messageData.data.Content);
+						processChatText(messageData.data.Content, messageData.data.Type, messageData.data.ContactId );
+						controller.getTranscript({MaxResults: 9999}).then(function (result) {
+							transcript = result.data["Transcript"];
+						});
+					}
                 }
             })
         })
