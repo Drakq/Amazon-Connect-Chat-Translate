@@ -175,7 +175,7 @@ const Ccp = () => {
 					
 					const email = contactAttributes.email;
 					const contactID = contactAttributes.contactID;
-					sPayload = "<?xml version='1.0' encoding='utf-8' ?><payload><Type>CHAT</Type><CID>BCM1234</CID><Action>END</Action><Email>" + email + "</Email><ExternalReferenceID>" + contactID + "</ExternalReferenceID><EventType>UPDATEACTIVITY</EventType><Transcript>" + transcript + "</Transcript></payload>";
+					const sPayload = "<?xml version='1.0' encoding='utf-8' ?><payload><Type>CHAT</Type><CID>BCM1234</CID><Action>END</Action><Email>" + email + "</Email><ExternalReferenceID>" + contactID + "</ExternalReferenceID><EventType>UPDATEACTIVITY</EventType><Transcript>" + transcript + "</Transcript></payload>";
 					window.parent.postMessage(sPayload, "*");
 				});
                 
