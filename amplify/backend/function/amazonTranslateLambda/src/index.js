@@ -1,7 +1,9 @@
 const deepl = require('deepl-node');
 const translator = new deepl.Translator(process.env.DEEPL_KEY);
 
-exports.handler = (body, context, callback) => {
+exports.handler = (event, context, callback) => {
+	const body = JSON.parse(event.body);
+	
 	translator.translateText(body.content, null, body.targetLanguage).then(response => {
 		console.log('Response: ' + JSON.stringify(response));
 		callback(null, {"statusCode": 200, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "*"}, "body": JSON.stringify(response)});
