@@ -159,8 +159,9 @@ const Ccp = () => {
 				contact.onEnded(() => {
 					console.log("CDEBUG ===> onEnded() >> contactId: ", contact.contactId);
 					//When the chat has ended, a new chat will be send to the C4C with the whole transcript of the chat
+					let contactAttributes = contact.getAttributes();
 					transcript = transcript.map(function(msg) {
-						const displayName = msg.DisplayName !== "Customer" ? msg.DisplayName : JSON.stringify(contact.getAttributes()["name"]["value"]).replaceAll('\"', '');
+						const displayName = msg.DisplayName !== "Customer" ? msg.DisplayName : JSON.stringify(contactAttributes["name"]["value"]).replaceAll('\"', '');
 						if (msg.Type == "MESSAGE") {
 							return msg = displayName + ": " + msg.Content;
 						} else if (msg.Type == "ATTACHMENT") {
@@ -172,6 +173,8 @@ const Ccp = () => {
 						}
 					}).join("\n");
 					
+					const email = contactAttributes.email;
+					const contactID = contactAttributes.contactID;
 					sPayload = "<?xml version='1.0' encoding='utf-8' ?><payload><Type>CHAT</Type><CID>BCM1234</CID><Action>END</Action><Email>" + email + "</Email><ExternalReferenceID>" + contactID + "</ExternalReferenceID><EventType>UPDATEACTIVITY</EventType><Transcript>" + transcript + "</Transcript></payload>";
 					window.parent.postMessage(sPayload, "*");
 				});
