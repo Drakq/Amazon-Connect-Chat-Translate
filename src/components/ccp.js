@@ -24,6 +24,7 @@ const Ccp = () => {
     // *******
     // Subscribe to the chat session
     // *******
+	var transcript;
     function getEvents(contact, agentChatSession) {
         contact.getAgentConnection().getMediaController().then(controller => {
             controller.onMessage(messageData => {
@@ -32,8 +33,11 @@ const Ccp = () => {
                         messageData.data.Content)
                 }
                 else {
-                    console.log(`CDEBUG ===> Customer ${messageData.data.DisplayName} Says`,messageData.data.Content);
-                    processChatText(messageData.data.Content, messageData.data.Type, messageData.data.ContactId );
+					console.log(`CDEBUG ===> Customer ${messageData.data.DisplayName} Says`,messageData.data.Content);
+					processChatText(messageData.data.Content, messageData.data.Type, messageData.data.ContactId );
+					controller.getTranscript({MaxResults: 9999}).then(function (result) {
+						transcript = result.data["Transcript"];
+					});
                 }
             })
         })
@@ -99,7 +103,9 @@ const Ccp = () => {
 					//Get customer data
 					const name = JSON.stringify(contactAttributes["name"]["value"]).replaceAll('\"', '');
 					const email = JSON.stringify(contactAttributes["email"]["value"]).replaceAll('\"', '');
+					const email2 = contact.getAttributes().email;
 					const contactID = JSON.stringify(contactAttributes["contactID"]["value"]).replaceAll('\"', '').replaceAll('-', '').toUpperCase();
+					const contactID2 = contact.getAttributes().contactID;
 					var previousTranscript = JSON.stringify(contactAttributes["previousTranscript"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
 					const ticketID = JSON.stringify(contactAttributes["ticketID"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
 					const advantageCard = JSON.stringify(contactAttributes["advantageCard"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
@@ -150,9 +156,25 @@ const Ccp = () => {
                 });
 
                 // This is invoked when the agent moves to ACW
-                contact.onEnded(() => {
-                    console.log("CDEBUG ===> onEnded() >> contactId: ", contact.contactId);
-                });
+				contact.onEnded(() => {
+					console.log("CDEBUG ===> onEnded() >> contactId: ", contact.contactId);
+					//When the chat has ended, a new chat will be send to the C4C with the whole transcript of the chat
+					transcript = transcript.map(function(msg) {
+						const displayName = msg.DisplayName !== "Customer" ? msg.DisplayName : JSON.stringify(contact.getAttributes()["name"]["value"]).replaceAll('\"', '');
+						if (msg.Type == "MESSAGE") {
+							return msg = displayName + ": " + msg.Content;
+						} else if (msg.Type == "ATTACHMENT") {
+							try {
+								return msg = displayName + ": " + msg.Attachments.map(a => a.AttachmentName).join(", ");
+							} catch(error) {
+								return msg = displayName + ": " + "Send File";
+							}
+						}
+					}).join("\n");
+					
+					sPayload = "<?xml version='1.0' encoding='utf-8' ?><payload><Type>CHAT</Type><CID>BCM1234</CID><Action>END</Action><Email>" + email + "</Email><ExternalReferenceID>" + contactID + "</ExternalReferenceID><EventType>UPDATEACTIVITY</EventType><Transcript>" + transcript + "</Transcript></payload>";
+					window.parent.postMessage(sPayload, "*");
+				});
                 
                 // This is invoked when the agent moves out of ACW to a different state
                 contact.onDestroy(() => {
