@@ -101,11 +101,8 @@ const Ccp = () => {
 					let contactQueue = contact.getQueue();
 					console.log("CDEBUG ===> contactQueue: ", contactQueue);
 					//Get customer data
-					const name = JSON.stringify(contactAttributes["name"]["value"]).replaceAll('\"', '');
 					const email = JSON.stringify(contactAttributes["email"]["value"]).replaceAll('\"', '');
-					const email2 = contact.getAttributes().email;
 					const contactID = JSON.stringify(contactAttributes["contactID"]["value"]).replaceAll('\"', '').replaceAll('-', '').toUpperCase();
-					const contactID2 = contact.getAttributes().contactID;
 					var previousTranscript = JSON.stringify(contactAttributes["previousTranscript"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
 					const ticketID = JSON.stringify(contactAttributes["ticketID"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
 					const advantageCard = JSON.stringify(contactAttributes["advantageCard"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
@@ -115,8 +112,8 @@ const Ccp = () => {
 					}
 					
 					//Send payload without transcript to open customer in C4C after incoming Chat was ACCEPTED
-					var sPayload = "<?xml version='1.0' encoding='utf-8' ?><payload><Type>CHAT</Type><CID>BCM1234</CID><EventType>INBOUND</EventType><Action>ACCEPT</Action><Email>" + email + "</Email><Custom_1>" + ticketID + "</Custom_1><Custom_2>" + email + "</Custom_2><Custom_3>" + advantageCard + "</Custom_3><TicketID>" + ticketID + "</TicketID><ExternalReferenceID>" + contactID + "</ExternalReferenceID></payload>";
-					window.parent.postMessage(sPayload, "*");
+					const parentPayload = "<?xml version='1.0' encoding='utf-8' ?><payload><Type>CHAT</Type><CID>BCM1234</CID><EventType>INBOUND</EventType><Action>ACCEPT</Action><Email>" + email + "</Email><Custom_1>" + ticketID + "</Custom_1><Custom_2>" + email + "</Custom_2><Custom_3>" + advantageCard + "</Custom_3><TicketID>" + ticketID + "</TicketID><ExternalReferenceID>" + contactID + "</ExternalReferenceID></payload>";
+					window.parent.postMessage(parentPayload, "*");
 				});
 
                 // This is invoked when the chat is accepted
@@ -173,10 +170,10 @@ const Ccp = () => {
 						}
 					}).join("\n");
 					
-					const email = contactAttributes.email;
-					const contactID = contactAttributes.contactID;
-					const sPayload = "<?xml version='1.0' encoding='utf-8' ?><payload><Type>CHAT</Type><CID>BCM1234</CID><Action>END</Action><Email>" + email + "</Email><ExternalReferenceID>" + contactID + "</ExternalReferenceID><EventType>UPDATEACTIVITY</EventType><Transcript>" + transcript + "</Transcript></payload>";
-					window.parent.postMessage(sPayload, "*");
+					const email = JSON.stringify(contactAttributes["email"]["value"]).replaceAll('\"', '');
+					const contactID = JSON.stringify(contactAttributes["contactID"]["value"]).replaceAll('\"', '').replaceAll('-', '').toUpperCase();
+					const parentPayload = "<?xml version='1.0' encoding='utf-8' ?><payload><Type>CHAT</Type><CID>BCM1234</CID><Action>END</Action><Email>" + email + "</Email><ExternalReferenceID>" + contactID + "</ExternalReferenceID><EventType>UPDATEACTIVITY</EventType><Transcript>" + transcript + "</Transcript></payload>";
+					window.parent.postMessage(parentPayload, "*");
 				});
                 
                 // This is invoked when the agent moves out of ACW to a different state
