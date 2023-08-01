@@ -52,8 +52,8 @@ const Chatroom = (props) => {
         if (newMessage === "") {
             return;
         }
-        let destLang = languageTranslate.find(o => o.contactId === currentContactId[0]);
 		let langCode = "en-GB"
+		let destLang = languageTranslate.find(o => o.contactId === currentContactId[0]);
 		if(destLang) langCode = destLang.lang;
 		if(langCode === "en") langCode = "en-GB";
 

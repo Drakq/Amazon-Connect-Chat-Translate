@@ -42,35 +42,24 @@ const Ccp = () => {
     // Processing the incoming chat from the Customer
     // *******
     async function processChatText(content, type, contactId) {
-        // Check if we know the language for this contactId, if not use dectectText(). This process means we only perform comprehend language detection at most once.
-        let textLang = '';
-        for(var i = 0; i < languageTranslate.length; i++) {
-            if (languageTranslate[i].contactId === contactId) {
-                textLang = languageTranslate[i].lang;
-                break;
-            } 
-        }
-        // If the contatId was not found in the store, or the store is empty, perform dectText API to comprehend
-        if(languageTranslate.length === 0 || textLang === '') {
-			let translation = await translate(content, 'de');
-            textLang = translation.detectedSourceLang;
-			console.log("Detected Language: " + textLang)
-        }
-
          // Update (or Add if new contactId) the store with the the language code
-        function upsert(array, item) { // (1)
+        function upsert(array, item) {
         	const i = array.findIndex(_item => _item.contactId === item.contactId);
-            if (i > -1) array[i] = item; // (2)
+            if (i > -1) array[i] = item;
         	else array.push(item);
         }
-		if(textLang !== '') {
-    		upsert(languageTranslate, {contactId: contactId, lang: textLang})
-        	setLanguageTranslate(languageTranslate);
-		}
                 
         // Translate the customer message into German.
-        let translation = await translate(content, 'de');
+		let translation = await translate(content, 'de');
 		let translatedMessage = translation.text;
+		let textLanguage = translation.detectedSourceLang;
+		//Update the Language of the Client after every message
+		if(textLanguage !== '') {
+			console.log("Detected Language: " + textLanguage);
+			upsert(languageTranslate, {contactId: contactId, lang: textLanguage})
+			setLanguageTranslate(languageTranslate);
+		}
+
         console.log(`CDEBUG ===>  Original Message: ` + content + `\n Translated Message: ` + translatedMessage);
         // create the new message to add to Chats.
         let data2 = {
