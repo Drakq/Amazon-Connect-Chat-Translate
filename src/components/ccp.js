@@ -90,13 +90,28 @@ const Ccp = () => {
             window.connect.contact(contact => {
 
                 // This is invoked when CCP is ringing
-                contact.onConnecting(() => {
-                    console.log("CDEBUG ===> onConnecting() >> contactId: ", contact.contactId);
-                    let contactAttributes = contact.getAttributes();
-                    console.log("CDEBUG ===> contactAttributes: ", JSON.stringify(contactAttributes));
-                    let contactQueue = contact.getQueue();
-                    console.log("CDEBUG ===> contactQueue: ", contactQueue);
-                });
+				contact.onConnecting(() => {
+					console.log("CDEBUG ===> onConnecting() >> contactId: ", contact.contactId);
+					let contactAttributes = contact.getAttributes();
+					console.log("CDEBUG ===> contactAttributes: ", JSON.stringify(contactAttributes));
+					let contactQueue = contact.getQueue();
+					console.log("CDEBUG ===> contactQueue: ", contactQueue);
+					//Get customer data
+					const name = JSON.stringify(contactAttributes["name"]["value"]).replaceAll('\"', '');
+					const email = JSON.stringify(contactAttributes["email"]["value"]).replaceAll('\"', '');
+					const contactID = JSON.stringify(contactAttributes["contactID"]["value"]).replaceAll('\"', '').replaceAll('-', '').toUpperCase();
+					var previousTranscript = JSON.stringify(contactAttributes["previousTranscript"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
+					const ticketID = JSON.stringify(contactAttributes["ticketID"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
+					const advantageCard = JSON.stringify(contactAttributes["advantageCard"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
+					const bot = JSON.stringify(contactAttributes["bot"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
+					if(previousTranscript != "") {
+						previousTranscript = "Previous Bot Chat:\n" + previousTranscript + "\n";
+					}
+					
+					//Send payload without transcript to open customer in C4C after incoming Chat was ACCEPTED
+					var sPayload = "<?xml version='1.0' encoding='utf-8' ?><payload><Type>CHAT</Type><CID>BCM1234</CID><EventType>INBOUND</EventType><Action>ACCEPT</Action><Email>" + email + "</Email><Custom_1>" + ticketID + "</Custom_1><Custom_2>" + email + "</Custom_2><Custom_3>" + advantageCard + "</Custom_3><TicketID>" + ticketID + "</TicketID><ExternalReferenceID>" + contactID + "</ExternalReferenceID></payload>";
+					window.parent.postMessage(sPayload, "*");
+				});
 
                 // This is invoked when the chat is accepted
                 contact.onAccepted(async() => {
@@ -179,8 +194,9 @@ const Ccp = () => {
 		window.connect.agentApp.initApp(
 			"ccp",
 			"ccp-container",
-			connectUrl + "/connect/ccp-v2/", { 
-				ccpParams: { 
+			connectUrl + "/connect/ccp-v2/", 
+			{
+				ccpParams: {
 					region: process.env.REACT_APP_CONNECT_REGION,
 					pageOptions: {
 						enableAudioDeviceSettings: true,
