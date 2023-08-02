@@ -104,6 +104,7 @@ const Ccp = () => {
 					console.log("CDEBUG ===> contactQueue: ", contactQueue);
 					//Get customer data
 					const email = JSON.stringify(contactAttributes["email"]["value"]).replaceAll('\"', '');
+					console.log("CDEBUG ===> onConnecting() >> email: ", contactAttributes.email);
 					const contactID = JSON.stringify(contactAttributes["contactID"]["value"]).replaceAll('\"', '').replaceAll('-', '').toUpperCase();
 					var previousTranscript = JSON.stringify(contactAttributes["previousTranscript"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
 					const ticketID = JSON.stringify(contactAttributes["ticketID"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
