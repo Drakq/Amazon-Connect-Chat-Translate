@@ -103,13 +103,12 @@ const Ccp = () => {
 					let contactQueue = contact.getQueue();
 					console.log("CDEBUG ===> contactQueue: ", contactQueue);
 					//Get customer data
-					const email = JSON.stringify(contactAttributes["email"]["value"]).replaceAll('\"', '');
-					console.log("CDEBUG ===> onConnecting() >> email: ", contactAttributes.email);
-					const contactID = JSON.stringify(contactAttributes["contactID"]["value"]).replaceAll('\"', '').replaceAll('-', '').toUpperCase();
-					var previousTranscript = JSON.stringify(contactAttributes["previousTranscript"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
-					const ticketID = JSON.stringify(contactAttributes["ticketID"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
-					const advantageCard = JSON.stringify(contactAttributes["advantageCard"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
-					const bot = JSON.stringify(contactAttributes["bot"]["value"]).replaceAll('\"', '').replaceAll("\\n", "\n");
+					const email = contactAttributes.email.value;
+					const contactID = contactAttributes.contactID.value.replaceAll('-', '').toUpperCase();
+					var previousTranscript = contactAttributes.previousTranscript.value.replaceAll("\\n", "\n");
+					const ticketID = contactAttributes.ticketID.value;
+					const advantageCard = contactAttributes.advantageCard.value;
+					const bot = contactAttributes.bot.value;
 					if(previousTranscript != "") {
 						previousTranscript = "Previous Bot Chat:\n" + previousTranscript + "\n";
 					}
@@ -161,7 +160,7 @@ const Ccp = () => {
 					//When the chat has ended, a new chat will be send to the C4C with the whole transcript of the chat
 					let contactAttributes = contact.getAttributes();
 					transcript = transcript.map(function(msg) {
-						const displayName = msg.DisplayName !== "Customer" ? msg.DisplayName : JSON.stringify(contactAttributes["name"]["value"]).replaceAll('\"', '');
+						const displayName = msg.DisplayName !== "Customer" ? msg.DisplayName : contactAttributes.name.value;
 						if (msg.Type == "MESSAGE") {
 							return msg = displayName + ": " + msg.Content;
 						} else if (msg.Type == "ATTACHMENT") {
@@ -173,8 +172,8 @@ const Ccp = () => {
 						}
 					}).join("\n");
 					
-					const email = JSON.stringify(contactAttributes["email"]["value"]).replaceAll('\"', '');
-					const contactID = JSON.stringify(contactAttributes["contactID"]["value"]).replaceAll('\"', '').replaceAll('-', '').toUpperCase();
+					const email = contactAttributes.email.value;
+					const contactID = contactAttributes.contactID.value.replaceAll('-', '').toUpperCase();
 					const parentPayload = "<?xml version='1.0' encoding='utf-8' ?><payload><Type>CHAT</Type><CID>BCM1234</CID><Action>END</Action><Email>" + email + "</Email><ExternalReferenceID>" + contactID + "</ExternalReferenceID><EventType>UPDATEACTIVITY</EventType><Transcript>" + transcript + "</Transcript></payload>";
 					window.parent.postMessage(parentPayload, "*");
 				});
